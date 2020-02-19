@@ -1,0 +1,48 @@
+<div *ngIf="(state$ | async) as state" [style.width.%]="65" [style.display]="'inline-block'">
+
+  <div>
+
+    <section [style.margin-bottom.px]="10">
+      Seed:
+      <input type="text" [formControl]="seedText" [value]="state.seed" class="options">
+    </section>
+
+    <section>
+      Filter:
+      <input type="text" [formControl]="filterText" class="options">
+    </section>
+
+    <div class="limits">
+      Page size:
+      <button class="options" *ngFor="let pageSize of state.pageSizes" [ngClass]="{active: pageSize === state.pageSize}"
+        (click)="setPageSize(pageSize)">
+        {{pageSize}}
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <ul [ngClass]="{'loading': state.loading }">
+    <li *ngFor="let u of (visibleUsers$ | async)">
+      {{u.name.first}} {{u.name.last}}
+    </li>
+  </ul>
+
+  <hr>
+  <div>
+    <button class="options" (click)="togglePageNumberVisibility()">
+      Show page number
+    </button>
+
+    <div *ngIf="state.pageNumberVisible" class="pagination">
+      Current page = {{ state.page }}
+    </div>
+
+
+  </div>
+</div>
+
+<div class="image-wrapper" [style.width.%]="35" [style.display]="'inline-block'">
+  <img src="https://ngrx.io/generated/images/guide/store/state-management-lifecycle.png">
+</div>
